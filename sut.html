@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Alen'in Süt Zamanı</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #fceff9, #e0f7fa);
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #4a148c;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin: 15px 0;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .card h3 {
+      color: #6a1b9a;
+    }
+
+    input, button {
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+      width: 90%;
+      max-width: 300px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    input {
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    button {
+      background: linear-gradient(135deg, #7e57c2, #4a148c);
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #9575cd, #6a1b9a);
+    }
+
+    .result {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍼 Alen'in Süt Zamanı</h1>
+
+  <div class="card">
+    <h3>1) Saat Gir:</h3>
+    <input type="time" id="timeInput">
+    <button onclick="calculateFromInput()">Hesapla</button>
+  </div>
+
+  <div class="card">
+    <h3>2) Sütü Şimdi Verdiysem:</h3>
+    <button onclick="calculateFromNow()">Sütü Şimdi Verdik</button>
+  </div>
+
+  <div class="card result" id="result"></div>
+
+  <script>
+    function formatTime(date) {
+      let h = date.getHours().toString().padStart(2, '0');
+      let m = date.getMinutes().toString().padStart(2, '0');
+      return `${h}:${m}`;
+    }
+
+    function calculateTimes(baseDate) {
+      let after3 = new Date(baseDate.getTime() + 3 * 60 * 60 * 1000);
+      let after4 = new Date(baseDate.getTime() + 4 * 60 * 60 * 1000);
+
+      document.getElementById("result").innerHTML = 
+        `⏰ 3 saat sonra: <b>${formatTime(after3)}</b><br> 
+         ⏰ 4 saat sonra: <b>${formatTime(after4)}</b>`;
+    }
+
+    function calculateFromInput() {
+      let input = document.getElementById("timeInput").value;
+      if (!input) {
+        alert("Lütfen bir saat seçin!");
+        return;
+      }
+      let [hours, minutes] = input.split(":");
+      let base = new Date();
+      base.setHours(hours);
+      base.setMinutes(minutes);
+      base.setSeconds(0);
+      calculateTimes(base);
+    }
+
+    function calculateFromNow() {
+      let now = new Date();
+      calculateTimes(now);
+    }
+  </script>
+</body>
+</html>
